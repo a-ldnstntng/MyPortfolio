@@ -17,14 +17,16 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Ali Andrei L. Tanting | Developer & AI Engineer",
+  title: "Ali Andrei L. Tanting | Student Developer & Aspiring AI Engineer",
   description:
-    "AI-powered developer building intelligent applications, flood-aware commute radars, and transit guides for the Philippines and beyond.",
+    "Student Developer and Aspiring AI Engineer building intelligent applications, flood-aware commute radars, and transit guides for the Philippines and beyond.",
   metadataBase: new URL("https://aliandrei.dev"),
   alternates: {
     canonical: "https://aliandrei.dev",
   },
   keywords: [
+    "student developer",
+    "aspiring AI engineer",
     "developer",
     "AI engineer",
     "portfolio",
@@ -43,16 +45,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://aliandrei.dev",
-    title: "Ali Andrei L. Tanting | Developer & AI Engineer",
+    title: "Ali Andrei L. Tanting | Student Developer & Aspiring AI Engineer",
     description:
-      "Portfolio of Ali Andrei L. Tanting — Developer and AI Engineer building intelligent applications with cutting-edge AI tools.",
+      "Portfolio of Ali Andrei L. Tanting — Student Developer and Aspiring AI Engineer building intelligent applications with cutting-edge AI tools.",
     siteName: "Ali Andrei L. Tanting Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ali Andrei L. Tanting | Developer & AI Engineer",
+    title: "Ali Andrei L. Tanting | Student Developer & Aspiring AI Engineer",
     description:
-      "Developer and AI Engineer building intelligent applications with cutting-edge AI tools.",
+      "Student Developer and Aspiring AI Engineer building intelligent applications with cutting-edge AI tools.",
   },
   robots: {
     index: true,

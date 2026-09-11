@@ -496,7 +496,7 @@ export default function PortfolioContent() {
           {/* Bio */}
           <Card className="lg:col-span-2">
             <CardHeader>
-              <CardTitle className="text-xl">Developer &amp; AI Engineer</CardTitle>
+              <CardTitle className="text-xl">Student Developer &amp; Aspiring AI Engineer</CardTitle>
             </CardHeader>
             <Separator className="bg-white/[0.1]" />
             <CardContent className="pt-4">

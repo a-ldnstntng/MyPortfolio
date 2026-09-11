@@ -56,9 +56,9 @@ export default function LandingPage() {
           {/* Eyebrow badge */}
           <p
             className="mb-6 inline-flex items-center rounded-full border border-white/10
-                       bg-white/[0.05] px-4 py-1.5 text-sm font-medium text-sand-300 backdrop-blur-sm"
+                       bg-white/[0.05] px-4 py-1.5 text-xs sm:text-sm font-medium text-sand-300 backdrop-blur-sm text-center"
           >
-            Developer &amp; AI Engineer
+            Student Developer &amp; Aspiring AI Engineer
           </p>
 
           {/* Typing headline */}

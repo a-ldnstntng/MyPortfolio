@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* shadcn CSS variables — matched to the black + sand portfolio scheme */
+    --background: 0 0% 0%;
+    --foreground: 43 27% 92%;
+    --card: 0 0% 4%;
+    --card-foreground: 43 27% 92%;
+    --popover: 0 0% 4%;
+    --popover-foreground: 43 27% 92%;
+    --primary: 43 27% 92%;
+    --primary-foreground: 0 0% 4%;
+    --secondary: 0 0% 8%;
+    --secondary-foreground: 40 22% 87%;
+    --muted: 0 0% 8%;
+    --muted-foreground: 0 0% 50%;
+    --accent: 0 0% 8%;
+    --accent-foreground: 43 27% 92%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 12%;
+    --input: 0 0% 12%;
+    --ring: 40 22% 87%;
+    --radius: 1rem;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-size: 20px;
+  }
+
+  body {
+    @apply bg-black text-sand-200 font-poppins antialiased;
+  }
+
+  /* Mobile: scale down the entire type system */
+  @media (max-width: 1023px) {
+    html {
+      font-size: 16px;
+    }
+  }
+
+  /* Accessible focus indicators */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-sand-400 rounded-sm;
+  }
+
+  /* Custom selection color */
+  ::selection {
+    @apply bg-sand-300 text-black;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-[#0A0A0A];
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-sand-500/30 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-sand-500/50;
+  }
+}
+
+@layer components {
+  .card-dot {
+    @apply w-3 h-3 rounded-full bg-sand-400 flex-shrink-0;
+  }
+
+  .nav-link {
+    @apply flex items-center gap-3.5 px-5 py-3.5 rounded-xl text-base font-medium
+           text-sand-400/70 hover:text-sand-100 hover:bg-white/[0.06]
+           transition-all duration-200 ease-in-out;
+  }
+
+  .nav-link.active {
+    @apply text-sand-100 bg-white/[0.08] font-semibold;
+  }
+}
+
+/* Typewriter caret */
+.caret {
+  display: inline-block;
+  animation: caret-blink 1s steps(1) infinite;
+}
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caret {
+    animation: none;
+  }
+}
+
+/* Skip to content – accessibility */
+.skip-to-content {
+  @apply absolute -top-full left-4 z-50 px-4 py-2 bg-sand-200 text-black
+         rounded-b-lg font-medium transition-all duration-200;
+}
+.skip-to-content:focus {
+  @apply top-0;
+}

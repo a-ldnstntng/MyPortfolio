@@ -57,11 +57,11 @@ const alsoWorkingWith = [
 
 export default function PortfolioContent() {
   return (
-    <div className="max-w-[1100px] mx-auto">
+    <div className="w-full max-w-[1100px] mx-auto min-w-0">
       {/* ═══════════ HOME ═══════════ */}
-      <section id="home" className="mb-8 sm:mb-10 scroll-mt-28 lg:scroll-mt-20">
+      <section id="home" className="mb-8 sm:mb-10 scroll-mt-28 lg:scroll-mt-20 w-full min-w-0">
         {/* Hero */}
-        <div className="flex flex-col sm:flex-row items-start justify-between gap-4 sm:gap-8 mb-6 sm:mb-8">
+        <div className="flex flex-col sm:flex-row items-start justify-between gap-4 sm:gap-8 mb-6 sm:mb-8 w-full min-w-0">
           <div className="max-w-2xl">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-sand-100 leading-[1.15] mb-4 sm:mb-5">
               AI Enthusiast.

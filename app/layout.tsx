@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 
@@ -9,10 +9,21 @@ const poppins = Poppins({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  themeColor: "#000000",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 export const metadata: Metadata = {
   title: "Ali Andrei L. Tanting | Developer & AI Engineer",
   description:
     "AI-powered developer building intelligent applications, flood-aware commute radars, and transit guides for the Philippines and beyond.",
+  metadataBase: new URL("https://aliandrei.dev"),
+  alternates: {
+    canonical: "https://aliandrei.dev",
+  },
   keywords: [
     "developer",
     "AI engineer",
@@ -63,10 +74,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={poppins.variable}>
-      <head>
-        <link rel="canonical" href="https://aliandrei.dev" />
-        <meta name="theme-color" content="#000000" />
-      </head>
       <body className="font-poppins">{children}</body>
     </html>
   );

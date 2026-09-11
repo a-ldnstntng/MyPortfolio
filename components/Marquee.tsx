@@ -21,10 +21,10 @@ export default function Marquee() {
   return (
     <section
       className="relative overflow-hidden rounded-2xl bg-white/[0.05] backdrop-blur-sm
-                 border border-white/[0.08] shadow-sm"
+                 border border-white/[0.08] shadow-sm w-full max-w-full min-w-0"
       aria-label="Tools I work with"
     >
-      <div className="flex items-center">
+      <div className="flex items-center w-full min-w-0">
         {/* Label – hidden on mobile */}
         <div className="hidden sm:flex flex-shrink-0 px-6 py-4 border-r border-white/[0.08] z-10 bg-white/[0.03]">
           <div>
@@ -38,7 +38,7 @@ export default function Marquee() {
         </div>
 
         {/* Scrolling track */}
-        <div className="flex-1 overflow-hidden relative">
+        <div className="flex-1 min-w-0 overflow-hidden relative w-full">
           {/* Gradient edge masks */}
           <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-16 bg-gradient-to-r from-black/90 to-transparent z-10 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-16 bg-gradient-to-l from-black/90 to-transparent z-10 pointer-events-none" />

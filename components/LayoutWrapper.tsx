@@ -27,10 +27,12 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-[#050505] text-sand-200">
+    <div className="relative min-h-screen bg-[#050505] text-sand-200 w-full max-w-full overflow-x-hidden">
       {/* Animated Vertical Bars Background - fixed full-viewport behind cards */}
       <div
-        className="fixed inset-0 pointer-events-none opacity-40 z-0 overflow-hidden"
+        className={`fixed inset-0 pointer-events-none z-0 overflow-hidden transition-opacity duration-500 ${
+          isPastHero ? "opacity-40" : "opacity-0"
+        }`}
         aria-hidden="true"
       >
         <VerticalBarsNoise
@@ -41,7 +43,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
         />
       </div>
 
-      <div className="relative z-10 flex min-h-screen">
+      <div className="relative z-10 flex min-h-screen w-full max-w-full overflow-x-hidden">
         {/* Mobile overlay */}
         {sidebarOpen && (
           <div
@@ -98,7 +100,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
 
         <main
           id="main-content"
-          className="flex-1 lg:ml-[280px] p-5 sm:p-8 lg:p-10 pt-16 lg:pt-10"
+          className="flex-1 min-w-0 w-full lg:ml-[280px] p-5 sm:p-8 lg:p-10 pt-16 lg:pt-10"
           role="main"
         >
           {children}

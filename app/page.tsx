@@ -37,9 +37,9 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#050505]">
+    <div className="relative min-h-screen bg-[#050505] w-full max-w-full overflow-x-hidden">
       {/* ═══════════ 1. HERO LANDING SECTION (Exclusive: 3D Recursive Erosion Sphere) ═══════════ */}
-      <section id="hero" className="relative min-h-[100svh] w-full overflow-hidden bg-black z-20">
+      <section id="hero" className="relative min-h-[100svh] w-full max-w-full overflow-hidden bg-black z-20">
         {/* Particle sphere background */}
         <div className="absolute inset-0 z-0" aria-hidden="true">
           <RecursiveErosionBackground mode="dark" className="h-full w-full" />
@@ -64,7 +64,7 @@ export default function LandingPage() {
           {/* Typing headline */}
           <Typewriter
             lines={["Hi, I'm Ali Andrei.", "nice to meet you!"]}
-            className="text-center text-[2.5rem] leading-[1.12] font-extrabold sm:text-6xl lg:text-7xl"
+            className="text-center text-3xl sm:text-6xl lg:text-7xl leading-[1.18] font-extrabold"
             lineClassName="text-sand-100 first-line:text-sand-100"
             caretClassName="ml-1 align-top text-[#F0EDE5]"
           />
@@ -125,7 +125,7 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════════ 2. REST OF THE PAGE (Exclusive: Vertical Bars Background) ═══════════ */}
-      <div id="portfolio-content" className="relative z-10">
+      <div id="portfolio-content" className="relative z-10 w-full max-w-full overflow-x-hidden">
         <LayoutWrapper>
           <PortfolioContent />
         </LayoutWrapper>

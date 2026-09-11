@@ -30,10 +30,14 @@
   html {
     scroll-behavior: smooth;
     font-size: 20px;
+    overflow-x: hidden;
+    max-width: 100%;
   }
 
   body {
     @apply bg-black text-sand-200 font-poppins antialiased;
+    overflow-x: hidden;
+    max-width: 100%;
   }
 
   /* Mobile: scale down the entire type system */

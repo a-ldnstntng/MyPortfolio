@@ -5,6 +5,7 @@ import Typewriter from "@/components/Typewriter";
 import { ArrowDown, ArrowRight, GithubLogo, LinkedinLogo, FacebookLogo } from "@phosphor-icons/react";
 import LayoutWrapper from "@/components/LayoutWrapper";
 import PortfolioContent from "@/components/PortfolioContent";
+import VisitorCounter from "@/components/VisitorCounter";
 import { smoothScrollTo } from "@/lib/utils";
 
 const socials = [
@@ -118,9 +119,16 @@ export default function LandingPage() {
                        text-sand-400/50 hover:text-sand-200 transition-colors duration-200 cursor-pointer group"
             aria-label="Scroll to explore portfolio"
           >
-            <span className="text-[11px] uppercase tracking-[0.2em] font-semibold">Scroll to explore</span>
+            <span className="hidden sm:inline text-[11px] uppercase tracking-[0.2em] font-semibold">
+              Scroll to explore
+            </span>
             <ArrowDown size={16} className="animate-bounce text-sand-300 group-hover:text-sand-100" />
           </button>
+
+          {/* Total Visits Counter Badge */}
+          <div className="absolute bottom-5 sm:bottom-6 right-4 sm:right-8 z-10">
+            <VisitorCounter />
+          </div>
         </div>
       </section>
 

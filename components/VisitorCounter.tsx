@@ -50,22 +50,12 @@ export default function VisitorCounter() {
       title="Total Portfolio Visits"
       aria-label={`Total portfolio visits: ${visits ?? "loading"}`}
     >
-      {/* Live active dot indicator */}
-      <span className="relative flex h-2 w-2 flex-shrink-0" aria-hidden="true">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-      </span>
-
       <Eye
         size={14}
         weight="duotone"
         className="text-sand-400 group-hover:text-sand-200 transition-colors flex-shrink-0"
         aria-hidden="true"
       />
-
-      <span className="hidden sm:inline text-[11px] font-medium text-sand-400/80 tracking-wide">
-        Visits:
-      </span>
 
       <span className="font-semibold text-sand-100 tabular-nums text-[11px] sm:text-xs min-w-[12px] text-center">
         {visits ? visits : loading ? "..." : "1"}

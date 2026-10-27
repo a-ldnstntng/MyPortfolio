@@ -2,114 +2,112 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    /* shadcn CSS variables — matched to the black + sand portfolio scheme */
-    --background: 0 0% 0%;
-    --foreground: 43 27% 92%;
-    --card: 0 0% 4%;
-    --card-foreground: 43 27% 92%;
-    --popover: 0 0% 4%;
-    --popover-foreground: 43 27% 92%;
-    --primary: 43 27% 92%;
-    --primary-foreground: 0 0% 4%;
-    --secondary: 0 0% 8%;
-    --secondary-foreground: 40 22% 87%;
-    --muted: 0 0% 8%;
-    --muted-foreground: 0 0% 50%;
-    --accent: 0 0% 8%;
-    --accent-foreground: 43 27% 92%;
-    --destructive: 0 62% 50%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 12%;
-    --input: 0 0% 12%;
-    --ring: 40 22% 87%;
-    --radius: 1rem;
-  }
+:root,
+.light {
+  --background-color: #f5f4f1;
+  --foreground-color: #262523;
+  --muted-color: color-mix(in srgb, var(--foreground-color) 64%, transparent);
+  --accent-teal: #2a8fa0;
+  --background: 45 14% 95%;
+  --foreground: 30 4% 14%;
+}
 
+.dark {
+  --background-color: #1a1917;
+  --foreground-color: #fff7f0;
+  --muted-color: color-mix(in srgb, var(--foreground-color) 50%, transparent);
+  --accent-teal: #48bcce;
+  --background: 30 6% 10%;
+  --foreground: 28 100% 97%;
+}
+
+.ocean {
+  --background-color: #0d1d33;
+  --foreground-color: #f0f6fc;
+  --muted-color: color-mix(in srgb, var(--foreground-color) 56%, transparent);
+  --accent-teal: #5ce1e6;
+  --background: 215 60% 13%;
+  --foreground: 210 60% 96%;
+}
+
+@layer base {
   html {
     scroll-behavior: smooth;
-    font-size: 20px;
-    overflow-x: hidden;
-    max-width: 100%;
+    font-size: 16px;
+    overflow-x: clip;
+    background-color: var(--background-color);
+    color: var(--foreground-color);
   }
 
   body {
-    @apply bg-black text-sand-200 font-poppins antialiased;
-    overflow-x: hidden;
-    max-width: 100%;
+    background-color: var(--background-color);
+    color: var(--foreground-color);
+    font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
   }
 
-  /* Mobile: scale down the entire type system */
-  @media (max-width: 1023px) {
-    html {
-      font-size: 16px;
-    }
-  }
-
-  /* Accessible focus indicators */
-  *:focus-visible {
-    @apply outline-2 outline-offset-2 outline-sand-400 rounded-sm;
-  }
-
-  /* Custom selection color */
   ::selection {
-    @apply bg-sand-300 text-black;
-  }
-
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-  ::-webkit-scrollbar-track {
-    @apply bg-[#0A0A0A];
-  }
-  ::-webkit-scrollbar-thumb {
-    @apply bg-sand-500/30 rounded-full;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-sand-500/50;
+    background-color: color-mix(in srgb, var(--foreground-color) 18%, transparent);
+    color: var(--foreground-color);
   }
 }
 
-@layer components {
-  .card-dot {
-    @apply w-3 h-3 rounded-full bg-sand-400 flex-shrink-0;
-  }
-
-  .nav-link {
-    @apply flex items-center gap-3.5 px-5 py-3.5 rounded-xl text-base font-medium
-           text-sand-400/70 hover:text-sand-100 hover:bg-white/[0.06]
-           transition-all duration-200 ease-in-out;
-  }
-
-  .nav-link.active {
-    @apply text-sand-100 bg-white/[0.08] font-semibold;
-  }
+/* Explicit utility overrides so theme changes apply immediately regardless of Tailwind cache */
+.bg-background {
+  background-color: var(--background-color) !important;
 }
 
-/* Typewriter caret */
-.caret {
-  display: inline-block;
-  animation: caret-blink 1s steps(1) infinite;
-}
-@keyframes caret-blink {
-  50% {
-    opacity: 0;
-  }
+.bg-foreground {
+  background-color: var(--foreground-color) !important;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .caret {
-    animation: none;
-  }
+.text-foreground {
+  color: var(--foreground-color) !important;
 }
 
-/* Skip to content – accessibility */
-.skip-to-content {
-  @apply absolute -top-full left-4 z-50 px-4 py-2 bg-sand-200 text-black
-         rounded-b-lg font-medium transition-all duration-200;
+.decoration-foreground {
+  text-decoration-color: var(--foreground-color) !important;
 }
-.skip-to-content:focus {
-  @apply top-0;
+
+.ink-link {
+  color: var(--foreground-color);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  text-decoration-color: color-mix(in srgb, var(--foreground-color) 28%, transparent);
+  transition: text-decoration-color 0.15s ease, color 0.15s ease;
+  outline: none;
+}
+
+.ink-link:focus-visible,
+.ink-link:hover {
+  text-decoration-color: currentColor;
+}
+
+.ink-link:focus-visible {
+  outline: 1px solid color-mix(in srgb, var(--foreground-color) 28%, transparent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Home page bio prose dimming when hovering/opening a citation */
+.cited-prose {
+  transition: color 0.18s ease;
+}
+
+.cited-prose:has([data-cited-open="true"]),
+.cited-prose:has(button:focus-visible),
+.cited-prose:has(button:hover) {
+  color: color-mix(in srgb, var(--foreground-color) 32%, transparent);
+}
+
+/* Hide scrollbars utility */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

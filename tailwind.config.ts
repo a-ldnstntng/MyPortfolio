@@ -4,6 +4,7 @@ const config: Config = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./lib/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -11,8 +12,10 @@ const config: Config = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        background: "var(--background-color)",
+        foreground: "var(--foreground-color)",
+        "dark-foreground": "#fff7f0",
+        "accent-teal": "#48bcce",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -26,7 +29,7 @@ const config: Config = {
           foreground: "hsl(var(--destructive-foreground))",
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
+          DEFAULT: "var(--muted-color)",
           foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
@@ -50,19 +53,6 @@ const config: Config = {
           400: "#D4CEC2",
           500: "#B8B0A2",
         },
-        cyprus: {
-          DEFAULT: "#000000",
-          50: "#F5F5F5",
-          100: "#E5E5E5",
-          200: "#CCCCCC",
-          300: "#999999",
-          400: "#666666",
-          500: "#333333",
-          600: "#1A1A1A",
-          700: "#000000",
-          800: "#0A0A0A",
-          900: "#050505",
-        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -70,26 +60,26 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
+        geistMono: ["var(--font-geist-mono)", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
+        mono: ["var(--font-geist-mono)", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
+        geistSans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
+        sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
+        inter: ["var(--font-inter)", "system-ui", "sans-serif"],
+        playfairDisplay: ["var(--font-playfair-display)", "Georgia", "serif"],
         poppins: ["var(--font-poppins)", "sans-serif"],
-      },
-      fontSize: {
-        xs: ["0.875rem", { lineHeight: "1.25rem" }],
-        sm: ["1rem", { lineHeight: "1.5rem" }],
-        base: ["1.25rem", { lineHeight: "1.875rem" }],
-        lg: ["1.375rem", { lineHeight: "2rem" }],
-        xl: ["1.5rem", { lineHeight: "2.125rem" }],
-        "2xl": ["1.75rem", { lineHeight: "2.375rem" }],
-        "3xl": ["2rem", { lineHeight: "2.5rem" }],
-        "4xl": ["2.5rem", { lineHeight: "3rem" }],
-        "5xl": ["3rem", { lineHeight: "3.5rem" }],
       },
       animation: {
         marquee: "marquee 35s linear infinite",
+        blink: "blink 1.05s steps(2, start) infinite",
       },
       keyframes: {
         marquee: {
           "0%": { transform: "translateX(0%)" },
           "100%": { transform: "translateX(-50%)" },
+        },
+        blink: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0" },
         },
       },
     },

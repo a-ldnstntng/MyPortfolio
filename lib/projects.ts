@@ -63,7 +63,7 @@ export const CITATIONS: Record<string, CitationItem> = {
     key: "pup",
     name: "PUP Manila",
     role: "BS Computer Science (Research Track)",
-    dates: "2022–Present",
+    dates: "2024–Present",
     summary:
       "Focusing on graph algorithms, intelligent systems, and civic software engineering for Philippine urban infrastructure.",
     href: "https://www.pup.edu.ph/",

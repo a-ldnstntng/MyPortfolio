@@ -35,16 +35,16 @@ export const metadata: Metadata = {
   title: "Ali Andrei Tanting",
   description:
     "Computer Science student at the Polytechnic University of the Philippines, research-focused, practicing AI-native development.",
-  metadataBase: new URL("https://aliandrei.dev"),
+  metadataBase: new URL("https://ali-tanting.pages.dev"),
   alternates: {
-    canonical: "https://aliandrei.dev",
+    canonical: "https://ali-tanting.pages.dev",
   },
   authors: [{ name: "Ali Andrei Tanting" }],
   creator: "Ali Andrei Tanting",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://aliandrei.dev",
+    url: "https://ali-tanting.pages.dev",
     title: "Ali Andrei Tanting",
     description:
       "Computer Science student at PUP Manila, research-focused, practicing AI-native development.",

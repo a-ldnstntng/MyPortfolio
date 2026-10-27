@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import type { ProjectItem } from "@/lib/projects";
 
 export default function ProjectCover({
@@ -10,30 +10,12 @@ export default function ProjectCover({
   project: ProjectItem;
   className?: string;
 }) {
-  const [imgLoaded, setImgLoaded] = useState(false);
-  const [imgError, setImgError] = useState(false);
-
   return (
     <div
       className={`relative h-full w-full overflow-hidden select-none ${className}`}
     >
-      {/* 1. Custom cover.png override (automatically renders if placed in /public/projects/[slug]/cover.png) */}
-      {!imgError && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={project.cover}
-          alt={project.name}
-          onLoad={() => setImgLoaded(true)}
-          onError={() => setImgError(true)}
-          className={`absolute inset-0 z-20 h-full w-full object-cover transition-opacity duration-300 ${
-            imgLoaded ? "opacity-100" : "opacity-0 pointer-events-none"
-          }`}
-        />
-      )}
-
-      {/* 2. Bespoke Branded Backdrop + Device UI Mockup (matches daoho.dev/projects card style) */}
-      {project.mockupVariant === "ligtas" && <LigtasMockup />}
-      {project.mockupVariant === "resetaph" && <ResetaMockup />}
+      {project.mockupVariant === "ligtas" && <LigtasPresentation />}
+      {project.mockupVariant === "resetaph" && <ResetaPresentation />}
       {project.mockupVariant === "parapo" && <ParaPoMockup />}
       {project.mockupVariant === "bayaniremit" && <BayaniRemitMockup />}
       {project.mockupVariant === "netforge" && <NetForgeMockup />}
@@ -42,148 +24,64 @@ export default function ProjectCover({
 }
 
 /* ───────────────────────────────────────────────────────────────────────────
-   1. LIGTAS METRO — OLED Dark + Safety Yellow (#EBF728) & Teal Radar Mockup
+   1. LIGTAS METRO — Dao Ho Presentation:
+      Atmospheric Dark Gold/Radar Glow + Layered Dual-Device Ground Truth & 3D Radar
    ─────────────────────────────────────────────────────────────────────────── */
-function LigtasMockup() {
+function LigtasPresentation() {
   return (
     <div
       className="relative h-full w-full overflow-hidden"
       style={{
         background:
-          "radial-gradient(110% 100% at 15% 85%, #3a3d10 0%, #14191e 48%, #090b0e 100%)",
+          "radial-gradient(110% 110% at 18% 85%, #2d300b 0%, #13171c 48%, #080a0d 100%)",
       }}
     >
-      {/* Left Brand Mark */}
-      <div className="absolute left-[7%] top-[14%] z-10 flex items-center gap-3">
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#EBF728]/15 border border-[#EBF728]/40 text-[#EBF728] font-geistMono text-sm font-bold">
+      {/* Ambient Radial Spotlight */}
+      <div
+        className="pointer-events-none absolute -left-12 bottom-0 h-72 w-72 rounded-full opacity-25 blur-3xl"
+        style={{ background: "#EBF728" }}
+      />
+
+      {/* Left Brand Mark (Dao Ho style) */}
+      <div className="absolute left-[7%] top-[45%] -translate-y-1/2 z-20 flex items-center gap-3.5">
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#EBF728]/15 border border-[#EBF728]/45 text-[#EBF728] font-geistMono text-base font-bold shadow-[0_0_24px_rgba(235,247,40,0.18)]">
           ▲
         </div>
         <div>
-          <div className="font-geistSans text-[19px] font-semibold tracking-tight text-[#fff7f0]">
+          <div className="font-geistSans text-[22px] sm:text-[24px] font-semibold tracking-tight text-[#fff7f0]">
             LIGTAS METRO
           </div>
-          <div className="font-geistMono text-[10px] uppercase tracking-widest text-[#EBF728]/80">
+          <div className="font-geistMono text-[10.5px] uppercase tracking-widest text-[#EBF728]/85">
             NOAH • PAGASA • MMDA RADAR
           </div>
         </div>
       </div>
 
-      {/* Right-Bottom Bleeding App Window Mockup */}
-      <div className="absolute left-[30%] top-[22%] right-[-4%] bottom-[-6%] rounded-tl-xl border border-white/15 bg-[#0b0d11] shadow-[0_24px_60px_rgba(0,0,0,0.85)] overflow-hidden flex flex-col">
-        {/* Window Top Bar */}
-        <div className="flex items-center justify-between border-b border-white/10 bg-[#11141a] px-4 py-2.5">
-          <div className="flex items-center gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
-            <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
-            <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-            <span className="ml-2 font-geistMono text-[11px] text-white/60">
-              ligtas.metro / radar / espana-blvd
-            </span>
+      {/* Right Dual Device Mockups (SelfServe-style layered composition) */}
+      <div className="absolute left-[44%] top-[10%] right-[3%] bottom-[-10%] z-10 flex items-end justify-end gap-3">
+        {/* Secondary Phone (Behind, Left) — Roadway Ground Truth */}
+        <div className="relative w-[46%] max-w-[215px] h-[84%] rounded-t-[28px] border-[3px] border-neutral-800 bg-[#0c0e12] shadow-[0_20px_50px_rgba(0,0,0,0.85)] overflow-hidden flex flex-col z-10 opacity-90 transition-transform duration-500 group-hover:-translate-y-1">
+          <div className="absolute top-1.5 left-1/2 -translate-x-1/2 h-3 w-14 rounded-full bg-neutral-900 z-40 border border-neutral-800/80" />
+          <div className="relative flex-1 bg-[#0b0d11] overflow-hidden pt-1">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/projects/ligtas-metro/01-ground-truth-mobile.png"
+              alt="LIGTAS Ground Truth"
+              className="h-full w-full object-cover object-top"
+            />
           </div>
-          <span className="rounded bg-[#EBF728]/20 px-2 py-0.5 font-geistMono text-[10px] font-medium text-[#EBF728]">
-            HABAGAT LIVE • 3D
-          </span>
         </div>
 
-        {/* App Body */}
-        <div className="grid flex-1 grid-cols-12 overflow-hidden">
-          {/* Left Telemetry Sidebar */}
-          <div className="col-span-5 border-r border-white/10 bg-[#0d1016] p-3.5 flex flex-col justify-between font-geistMono">
-            <div className="space-y-2.5">
-              <div className="text-[10px] uppercase tracking-wider text-white/40">
-                CORRIDOR PASSABILITY
-              </div>
-              {[
-                {
-                  corridor: "España — Maceda",
-                  depth: "0.42m",
-                  status: "4x4 ONLY",
-                  color: "text-[#f59e0b]",
-                },
-                {
-                  corridor: "Sta. Mesa — V. Mapa",
-                  depth: "0.12m",
-                  status: "PASSABLE",
-                  color: "text-[#22c55e]",
-                },
-                {
-                  corridor: "Araneta — E. Rodriguez",
-                  depth: "0.58m",
-                  status: "IMPASSABLE",
-                  color: "text-[#ef4444]",
-                },
-                {
-                  corridor: "Katipunan — Ateneo",
-                  depth: "0.08m",
-                  status: "PASSABLE",
-                  color: "text-[#22c55e]",
-                },
-              ].map((row) => (
-                <div
-                  key={row.corridor}
-                  className="rounded border border-white/5 bg-white/[0.02] px-2.5 py-1.5 flex items-center justify-between text-[10px]"
-                >
-                  <div>
-                    <div className="text-white/85 font-medium">{row.corridor}</div>
-                    <div className="text-white/40">Gauge: {row.depth}</div>
-                  </div>
-                  <span className={`font-semibold ${row.color}`}>
-                    {row.status}
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            <div className="rounded border border-[#EBF728]/25 bg-[#EBF728]/5 p-2 text-[10px] text-[#EBF728]">
-              Marikina Sto. Niño: 16.4m (Alert Lvl 2)
-            </div>
-          </div>
-
-          {/* Right 3D Vector Flood Map View */}
-          <div
-            className="col-span-7 relative p-4 flex flex-col justify-between"
-            style={{
-              background:
-                "radial-gradient(circle at 55% 45%, rgba(72,188,206,0.18), rgba(11,13,17,0.95) 75%)",
-            }}
-          >
-            {/* Vector Grid Lines */}
-            <div
-              className="absolute inset-0 opacity-20"
-              style={{
-                backgroundImage:
-                  "linear-gradient(to right, rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.12) 1px, transparent 1px)",
-                backgroundSize: "24px 24px",
-              }}
+        {/* Foreground Phone (Front, Right) — 3D Vector Flood Radar */}
+        <div className="relative w-[52%] max-w-[245px] h-[94%] rounded-t-[32px] border-[3.5px] border-neutral-700 bg-black shadow-[0_30px_70px_rgba(0,0,0,0.98)] overflow-hidden flex flex-col z-30 transition-transform duration-500 group-hover:scale-[1.02]">
+          <div className="absolute top-2 left-1/2 -translate-x-1/2 h-3.5 w-16 rounded-full bg-neutral-900 z-40 border border-neutral-800" />
+          <div className="relative flex-1 bg-black overflow-hidden pt-1.5">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/projects/ligtas-metro/02-flood-radar-3d-mobile.png"
+              alt="LIGTAS 3D Flood Radar"
+              className="h-full w-full object-cover object-top"
             />
-
-            <div className="relative z-10 flex items-center justify-between">
-              <span className="rounded bg-black/70 border border-white/10 px-2 py-1 font-geistMono text-[10px] text-white/70">
-                MapLibre GL • Pitch 52°
-              </span>
-              <span className="rounded bg-[#48bcce]/20 border border-[#48bcce]/40 px-2 py-1 font-geistMono text-[10px] text-[#48bcce]">
-                Mapillary 360°
-              </span>
-            </div>
-
-            {/* Simulated Flood Hazard Polygon & Bypass Route */}
-            <div className="relative z-10 my-auto mx-auto w-4/5 rounded-lg border border-[#ef4444]/40 bg-[#ef4444]/10 p-3 backdrop-blur-sm">
-              <div className="flex items-center justify-between font-geistMono text-[10px]">
-                <span className="text-[#ef4444] font-semibold">
-                  ▲ INUNDATION ZONE
-                </span>
-                <span className="text-white/60">Sedan &lt; 0.20m</span>
-              </div>
-              <div className="mt-1.5 font-geistMono text-[11px] text-white/90">
-                Bypass via Skyway Stage 3 → Nagtahan Exit (+6 min)
-              </div>
-            </div>
-
-            <div className="relative z-10 flex items-center gap-2 font-geistMono text-[10px] text-white/50">
-              <span>NOAH Rain: 32mm/hr</span>
-              <span>•</span>
-              <span>RAG Safety Advisor Ready</span>
-            </div>
           </div>
         </div>
       </div>
@@ -192,96 +90,64 @@ function LigtasMockup() {
 }
 
 /* ───────────────────────────────────────────────────────────────────────────
-   2. ResetaPH — Deep Medical Teal/Emerald Backdrop + Mobile & Rx Reader Mockup
+   2. ResetaPH — Dao Ho Style (1:1 with SelfServe card in user reference):
+      Medical Emerald Background + Layered Dual Mobile Phones (Price & Schedule)
    ─────────────────────────────────────────────────────────────────────────── */
-function ResetaMockup() {
+function ResetaPresentation() {
   return (
     <div
       className="relative h-full w-full overflow-hidden"
       style={{
         background:
-          "radial-gradient(100% 100% at 15% 80%, #0d4a3e 0%, #0b2926 52%, #071414 100%)",
+          "radial-gradient(110% 110% at 18% 75%, #064e3b 0%, #072a25 50%, #041211 100%)",
       }}
     >
-      {/* Left Brand Mark */}
-      <div className="absolute left-[7%] top-[44%] -translate-y-1/2 z-10 flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 border border-white/20 text-[#fff7f0] font-geistMono text-base font-bold">
+      {/* Ambient Spotlight */}
+      <div
+        className="pointer-events-none absolute -left-12 bottom-0 h-72 w-72 rounded-full opacity-25 blur-3xl"
+        style={{ background: "#34d399" }}
+      />
+
+      {/* Left Brand Mark (Dao Ho style) */}
+      <div className="absolute left-[7%] top-[45%] -translate-y-1/2 z-20 flex items-center gap-3.5">
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-400/15 border border-emerald-400/35 text-emerald-300 font-geistMono text-lg font-bold shadow-[0_0_24px_rgba(52,211,153,0.18)]">
           Rx
         </div>
         <div>
-          <div className="font-geistSans text-[22px] font-semibold tracking-tight text-[#fff7f0]">
+          <div className="font-geistSans text-[22px] sm:text-[24px] font-semibold tracking-tight text-[#fff7f0]">
             ResetaPH
           </div>
-          <div className="font-geistMono text-[11px] text-emerald-300/80">
+          <div className="font-geistMono text-[11px] text-emerald-300/85">
             Generic Finder • Taglish Care
           </div>
         </div>
       </div>
 
-      {/* Right Phone + Tablet Split Mockup (like SelfServe in reference) */}
-      <div className="absolute left-[46%] top-[14%] right-[4%] bottom-[-8%] flex items-end gap-3">
-        {/* Phone Frame */}
-        <div className="w-[54%] h-[94%] rounded-t-[24px] border-[3px] border-neutral-800 bg-[#faf9f5] text-[#1a1917] p-3.5 shadow-2xl flex flex-col justify-between font-geistSans">
-          <div>
-            <div className="mx-auto mb-2.5 h-1 w-10 rounded-full bg-neutral-300" />
-            <div className="flex items-center justify-between border-b border-neutral-200 pb-2">
-              <span className="font-geistMono text-[10px] font-semibold uppercase tracking-wider text-emerald-800">
-                Decoded Reseta
-              </span>
-              <span className="rounded-full bg-emerald-100 px-2 py-0.5 font-geistMono text-[9px] font-medium text-emerald-900">
-                Save 62%
-              </span>
-            </div>
-
-            <div className="mt-2.5 space-y-2">
-              <div className="rounded-lg border border-neutral-200 bg-white p-2.5 shadow-sm">
-                <div className="flex items-baseline justify-between">
-                  <span className="text-[11px] font-semibold">
-                    Co-Amoxiclav 625mg
-                  </span>
-                  <span className="font-geistMono text-[10px] text-emerald-700 font-semibold">
-                    ₱24.50 / tab
-                  </span>
-                </div>
-                <div className="mt-0.5 font-geistMono text-[9.5px] text-neutral-500">
-                  Sig: 1 tab BID PC × 7 days (#14)
-                </div>
-                <div className="mt-1 rounded bg-emerald-50 px-1.5 py-1 text-[9.5px] text-emerald-900">
-                  “Inumin 2 beses sa isang araw pagkatapos kumain (Umaga at Gabi).”
-                </div>
-              </div>
-
-              <div className="rounded-lg border border-neutral-200 bg-white p-2.5 shadow-sm">
-                <div className="flex items-baseline justify-between">
-                  <span className="text-[11px] font-semibold">
-                    Amlodipine 5mg
-                  </span>
-                  <span className="font-geistMono text-[10px] text-emerald-700 font-semibold">
-                    ₱4.25 / tab
-                  </span>
-                </div>
-                <div className="mt-0.5 font-geistMono text-[9.5px] text-neutral-500">
-                  Mercury • South Star • Rose
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-lg bg-emerald-900 py-1.5 text-center font-geistMono text-[10px] font-medium text-white">
-            Show Counter Card →
+      {/* Right Dual Device Mockups (matches SelfServe layered composition) */}
+      <div className="absolute left-[44%] top-[10%] right-[3%] bottom-[-10%] z-10 flex items-end justify-end gap-3">
+        {/* Foreground Primary Phone — Price Comparator (83% Savings) */}
+        <div className="relative w-[52%] max-w-[245px] h-[94%] rounded-t-[32px] border-[3.5px] border-neutral-700 bg-black shadow-[0_30px_70px_rgba(0,0,0,0.98)] overflow-hidden flex flex-col z-30 transition-transform duration-500 group-hover:scale-[1.02]">
+          <div className="absolute top-2 left-1/2 -translate-x-1/2 h-3.5 w-16 rounded-full bg-neutral-900 z-40 border border-neutral-800" />
+          <div className="relative flex-1 bg-[#faf9f5] overflow-hidden pt-1.5">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/projects/resetaph/03-results-prices-mobile.png"
+              alt="ResetaPH Price Comparator"
+              className="h-full w-full object-cover object-top"
+            />
           </div>
         </div>
 
-        {/* Secondary Card Behind */}
-        <div className="w-[46%] h-[82%] rounded-tl-xl border border-white/15 bg-[#0e2220] p-3 text-white/90 font-geistMono text-[10px] space-y-2 shadow-xl">
-          <div className="text-emerald-300 font-semibold">TIMELINE SCHEDULE</div>
-          <div className="rounded border border-white/10 bg-white/5 p-2">
-            <div className="text-white/50">08:00 AM • UMAGA</div>
-            <div className="mt-0.5">Co-Amoxiclav + Amlodipine</div>
-          </div>
-          <div className="rounded border border-white/10 bg-white/5 p-2">
-            <div className="text-white/50">08:00 PM • GABI</div>
-            <div className="mt-0.5">Co-Amoxiclav 625mg</div>
+        {/* Secondary Phone (Behind, Right) — How to Take / Spoken Schedule */}
+        <div className="relative w-[46%] max-w-[215px] h-[84%] rounded-t-[28px] border-[3px] border-neutral-800 bg-[#081816] shadow-[0_20px_50px_rgba(0,0,0,0.85)] overflow-hidden flex flex-col z-10 opacity-90 transition-transform duration-500 group-hover:-translate-y-1">
+          <div className="absolute top-1.5 left-1/2 -translate-x-1/2 h-3 w-14 rounded-full bg-neutral-900 z-40 border border-neutral-800/80" />
+          <div className="relative flex-1 bg-white overflow-hidden pt-1">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/projects/resetaph/04-results-schedule-mobile.png"
+              alt="ResetaPH Care Schedule"
+              className="h-full w-full object-cover object-top"
+            />
           </div>
         </div>
       </div>
@@ -290,7 +156,7 @@ function ResetaMockup() {
 }
 
 /* ───────────────────────────────────────────────────────────────────────────
-   3. PARA PO! — Warm Amber/Slate Jeepney Transit Ticket & Taglish NLP Mockup
+   3. PARA PO! — Jeepney Warm Amber / Slate Taglish Transit Mockup
    ─────────────────────────────────────────────────────────────────────────── */
 function ParaPoMockup() {
   return (
@@ -367,7 +233,7 @@ function ParaPoMockup() {
 }
 
 /* ───────────────────────────────────────────────────────────────────────────
-   4. BayaniRemit — Monochromatic Indigo/Slate Fintech & 3NF Envelope Mockup
+   4. BayaniRemit — Monochromatic Indigo / Slate Fintech & 3NF Envelope Mockup
    ─────────────────────────────────────────────────────────────────────────── */
 function BayaniRemitMockup() {
   return (
@@ -432,7 +298,7 @@ function BayaniRemitMockup() {
 }
 
 /* ───────────────────────────────────────────────────────────────────────────
-   5. NetForge — Cold Cyan/Abyss Skia Network Topology & OSPF Simulator Mockup
+   5. NetForge — Cold Cyan / Abyss Skia Network Topology & OSPF Simulator Mockup
    ─────────────────────────────────────────────────────────────────────────── */
 function NetForgeMockup() {
   return (

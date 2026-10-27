@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "favicon-gen": {
+      "source": "jezweb/claude-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/design-assets/skills/favicon-gen/SKILL.md",
+      "computedHash": "e9a1e409acde64014c8490d243695f4f1a19cbf3b40104246cf30adc7907a308"
+    }
+  }
+}

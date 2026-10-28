@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev -H 0.0.0.0",
     "build": "next build",
-    "deploy:cf": "next build && wrangler pages deploy out --project-name=ali-tanting",
+    "deploy:cf": "next build && npx wrangler pages deploy out --project-name=ali-tanting --branch=main",
     "start": "next start -H 0.0.0.0 -p 3000"
   },
   "dependencies": {

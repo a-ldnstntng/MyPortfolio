@@ -34,7 +34,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Ali Andrei Tanting",
   description:
-    "Computer Science student at the Polytechnic University of the Philippines, research-focused, practicing AI-native development.",
+    "Computer Science student at the Polytechnic University of the Philippines, research-focused, practicing AI-native engineering.",
   metadataBase: new URL("https://ali-tanting.pages.dev"),
   alternates: {
     canonical: "https://ali-tanting.pages.dev",
@@ -47,14 +47,14 @@ export const metadata: Metadata = {
     url: "https://ali-tanting.pages.dev",
     title: "Ali Andrei Tanting",
     description:
-      "Computer Science student at PUP Manila, research-focused, practicing AI-native development.",
+      "Computer Science student at PUP Manila, research-focused, practicing AI-native engineering.",
     siteName: "Ali Andrei Tanting",
   },
   twitter: {
     card: "summary_large_image",
     title: "Ali Andrei Tanting",
     description:
-      "Computer Science student at PUP Manila, research-focused, practicing AI-native development.",
+      "Computer Science student at PUP Manila, research-focused, practicing AI-native engineering.",
   },
   icons: {
     icon: [

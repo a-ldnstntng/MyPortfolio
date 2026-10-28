@@ -248,7 +248,7 @@ export default function HomePage() {
               </Citation>
               , research-focused, practicing{" "}
               <Citation source="aiNative" isLight={isLight}>
-                AI-native development
+                AI-native engineering
               </Citation>
               .
             </p>

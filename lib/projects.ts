@@ -71,11 +71,11 @@ export const CITATIONS: Record<string, CitationItem> = {
   },
   aiNative: {
     key: "aiNative",
-    name: "AI-Native Workflow",
+    name: "AI-Native Engineering",
     role: "Directing, Reviewing & Shipping with Agents",
     dates: "Daily Practice",
     summary:
-      "Building full-stack software with AI coding agents in the loop — focusing on architecture specs, deterministic verification, and rapid iteration.",
+      "Engineering full-stack systems and LLM-grounded pipelines with AI coding agents in the loop — focusing on architecture specs, deterministic verification, and rapid iteration.",
     href: "/projects",
     badgeText: "A",
   },

@@ -32,7 +32,7 @@ export interface CitationItem {
 export const SITE_CONFIG = {
   name: "Ali Andrei Tanting",
   shortName: "Ali Andrei",
-  tagline: "i am cooked",
+  tagline: "leveling up with agents",
   location: "Manila, Philippines",
   university: "Polytechnic University of the Philippines",
   socials: [

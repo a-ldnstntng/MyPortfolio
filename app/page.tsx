@@ -220,7 +220,7 @@ export default function HomePage() {
             </div>
           )}
 
-          {/* Tagline (exact lowercase: "i am cooked" + blinking cursor) */}
+          {/* Tagline (exact lowercase: "leveling up with agents" + blinking cursor) */}
           <blockquote
             data-koi-avoid={true}
             className="font-geistMono text-[14px] lowercase leading-relaxed tracking-[0.02em] opacity-60"

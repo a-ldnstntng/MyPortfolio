@@ -645,7 +645,7 @@ function burstFrom(
   const top = d.between(0, 72)
   const bottom = Math.min(100, top + d.between(18, 40))
   const first = focus ?? d.int(0, Math.max(0, wordCount - 1))
-  const pair = (focus !== null || d.chance(0.4)) && first + 1 < wordCount
+  const pair = focus === null && d.chance(0.4) && first + 1 < wordCount
   const hits = pair ? [first, first + 1] : [first]
   const stuck = kind === 'stuck'
   const slip = d.sign() * d.between(0.25, 0.7)
@@ -692,7 +692,8 @@ function burstAt(
   seed: number,
   k: number,
   wordCount: number,
-  previous: number
+  previous: number,
+  focus: number | null = null
 ): Burst {
   const d = draws(mixSeed(seed, 77 + k))
   const gap = k === 0 ? FIRST_BURST : d.int(...BURST_GAP)
@@ -700,7 +701,8 @@ function burstAt(
     mixSeed(seed, 1000 + k),
     burstKind(d.random()),
     wordCount,
-    previous + gap
+    previous + gap,
+    focus
   )
 }
 
@@ -760,9 +762,10 @@ function burstList(
   seed: number,
   wordCount: number,
   end: number,
-  tick: number
+  tick: number,
+  focus: number | null = null
 ): Burst[] {
-  const key = `${seed}|${wordCount}|${end}`
+  const key = `${seed}|${wordCount}|${end}|${focus ?? 'all'}`
   let list = timelines.get(key)
   if (!list) {
     if (timelines.size > 64) timelines.clear()
@@ -770,7 +773,7 @@ function burstList(
     timelines.set(key, list)
   }
   for (let last = list.at(-1); !last || last.start <= tick; last = list.at(-1)) {
-    list.push(burstAt(seed, list.length, wordCount, last ? burstEnd(last) : end))
+    list.push(burstAt(seed, list.length, wordCount, last ? burstEnd(last) : end, focus))
   }
   return list
 }
@@ -797,9 +800,10 @@ function burstOn(
   seed: number,
   wordCount: number,
   end: number,
-  tick: number
+  tick: number,
+  focus: number | null = null
 ): Burst | null {
-  return burstIn(burstList(seed, wordCount, end, tick), tick)
+  return burstIn(burstList(seed, wordCount, end, tick, focus), tick)
 }
 
 // ---------------------------------------------------------------- the text
@@ -1250,6 +1254,8 @@ export interface VerseTextProps {
   autoplay?: boolean
   /** Keeps glitching on its own once printed. */
   idle?: boolean
+  /** Only this word (by text or 0-based word index) glitches during idle bursts once printed. */
+  idleFocus?: number | string
   /** `2` runs twice as fast, `0.5` at half speed. */
   speed?: number
   /** `light` for dark ink on light pages, `dark` for light ink on dark ones. */
@@ -1281,8 +1287,13 @@ function planFor(text: string, seed: number) {
 }
 
 /** The burst on the press at `tick`, if any. */
-function idleBurst(schedule: Schedule, seed: number, tick: number): Burst | null {
-  return burstOn(mixSeed(seed, 1), schedule.words.length, schedule.end, tick)
+function idleBurst(
+  schedule: Schedule,
+  seed: number,
+  tick: number,
+  focus: number | null = null
+): Burst | null {
+  return burstOn(mixSeed(seed, 1), schedule.words.length, schedule.end, tick, focus)
 }
 
 /** Whether anything moves at `tick`: the print, or a burst. */
@@ -1318,6 +1329,7 @@ function VerseTextBody({
   seed = 1610,
   autoplay = true,
   idle = true,
+  idleFocus,
   speed = 1,
   tone = 'light',
   className,
@@ -1337,6 +1349,16 @@ function VerseTextBody({
   // null: not printed yet; then the tick it is on
   const [tick, setTick] = useState<number | null>(null)
   const position = useRef(0)
+
+  const focusIndex = (() => {
+    if (idleFocus === undefined || idleFocus === null) return null
+    if (typeof idleFocus === 'number') return idleFocus
+    const target = idleFocus.toLowerCase().replace(/[^a-z0-9]/g, '')
+    const idx = tokens.findIndex((t) =>
+      t.text.toLowerCase().replace(/[^a-z0-9]/g, '') === target
+    )
+    return idx >= 0 ? idx : null
+  })()
 
   useImperativeHandle(ref, () => ({
     replay() {
@@ -1380,8 +1402,8 @@ function VerseTextBody({
         carry -= Math.floor(carry)
         for (let k = 0; k < whole; k++) {
           const next = position.current + 1
-          const before = idle ? idleBurst(schedule, seed, position.current) : null
-          const after = idle ? idleBurst(schedule, seed, next) : null
+          const before = idle ? idleBurst(schedule, seed, position.current, focusIndex) : null
+          const after = idle ? idleBurst(schedule, seed, next, focusIndex) : null
           position.current = next
           // a still page draws nothing new, so it isn't redrawn
           if (
@@ -1398,7 +1420,7 @@ function VerseTextBody({
     }
     raf = requestAnimationFrame(step)
     return () => cancelAnimationFrame(raf)
-  }, [running, speed, idle, schedule, seed])
+  }, [running, speed, idle, schedule, seed, focusIndex])
 
   // the tick on screen: null while it waits, unprinted, or once still
   const at = controlled
@@ -1410,7 +1432,7 @@ function VerseTextBody({
       : tick
   let page: PageLook | null = null
   if (at !== null) {
-    const burst = idle ? idleBurst(schedule, seed, at) : null
+    const burst = idle ? idleBurst(schedule, seed, at, focusIndex) : null
     page = lookAt(schedule, burst ? [burst] : [], at)
   }
   const waiting = controlled

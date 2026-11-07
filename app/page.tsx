@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import AsciiOrcaGrid from "@/components/AsciiOrcaGrid";
 import { useTheme } from "@/components/ThemeProvider";
-import { VerseText } from "@/components/verse-text";
+import { VerseText, type VerseTextHandle } from "@/components/verse-text";
 import { SITE_CONFIG, CITATIONS } from "@/lib/projects";
 
 function Citation({
@@ -173,6 +173,7 @@ function Citation({
 export default function HomePage() {
   const { theme, isLight } = useTheme();
   const [stats, setStats] = useState({ pod: 5, ripples: 0 });
+  const taglineRef = useRef<VerseTextHandle>(null);
 
   useEffect(() => {
     const html = document.documentElement;
@@ -224,11 +225,14 @@ export default function HomePage() {
           {/* Tagline (exact lowercase: "leveling up with agents" + blinking cursor) */}
           <blockquote
             data-koi-avoid={true}
-            className="font-geistMono text-[14px] lowercase leading-relaxed tracking-[0.02em] opacity-60"
+            onClick={() => taglineRef.current?.replay()}
+            className="font-geistMono text-[14px] lowercase leading-relaxed tracking-[0.02em] opacity-60 cursor-pointer"
+            title="Click to replay"
           >
-            {SITE_CONFIG.tagline.replace(/\bagents\b/i, "").trimEnd()}{" "}
             <VerseText
-              text="agents"
+              ref={taglineRef}
+              text={SITE_CONFIG.tagline}
+              idleFocus="agents"
               tone={isLight ? "light" : "dark"}
               className="inline-block align-baseline"
               style={{ "--vt-ink": "currentColor" } as React.CSSProperties}

@@ -33,20 +33,16 @@ function ProjectCard({
         }
       }}
       draggable={false}
-      className={`group block w-min shrink-0 snap-start outline-none transition-opacity duration-300 ${
-        isDimmed ? "opacity-55" : "opacity-100"
+      className={`project-card group block shrink-0 snap-start transition-opacity duration-300 ${
+        isDimmed ? "opacity-75" : "opacity-100"
       }`}
     >
       {/* Preview Image Container */}
       <div
         data-slug={project.slug}
-        className={`relative overflow-hidden rounded-[6px] bg-[color-mix(in_srgb,var(--foreground-color)_6%,transparent)] h-[52vw] sm:h-[min(60vh,40rem)] ${
-          project.featuredWide
-            ? "aspect-[16/9.4] w-[86vw] sm:w-auto"
-            : "aspect-[3/2] w-[82vw] sm:w-auto"
-        }`}
+        className="relative aspect-[3/2] w-full overflow-hidden bg-[color-mix(in_srgb,var(--foreground-color)_6%,transparent)]"
       >
-        <div className="h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.03]">
+        <div className="h-full w-full transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.015]">
           <ProjectCover project={project} />
         </div>
 
@@ -67,7 +63,7 @@ function ProjectCard({
       </div>
 
       {/* Row 2: One-Line Description in Dim, Lighter Text */}
-      <p className="mt-1 truncate font-geistSans text-[14px] leading-[1.5] text-[var(--muted-color)]">
+      <p className="mt-1 max-w-[70ch] font-geistSans text-[14px] leading-[1.5] text-[var(--muted-color)]">
         {project.tagline}
       </p>
     </Link>
@@ -83,6 +79,7 @@ export default function ProjectsPage() {
   const isDraggingRef = useRef<boolean>(false);
   const dragStartXRef = useRef<number>(0);
   const dragScrollLeftRef = useRef<number>(0);
+  const didDragRef = useRef(false);
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
 
   useEffect(() => {
@@ -119,6 +116,10 @@ export default function ProjectsPage() {
     const startSmoothScroll = (nextTarget: number) => {
       const maxScroll = Math.max(0, el.scrollWidth - el.clientWidth);
       targetScrollRef.current = Math.max(0, Math.min(maxScroll, nextTarget));
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        el.scrollLeft = targetScrollRef.current;
+        return;
+      }
       if (!isAnimatingRef.current) {
         isAnimatingRef.current = true;
         rafRef.current = requestAnimationFrame(animateScroll);
@@ -165,7 +166,10 @@ export default function ProjectsPage() {
   // Click-and-drag support on desktop
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = scrollRef.current;
-    if (!el) return;
+    if (!el || e.button !== 0) return;
+    cancelAnimationFrame(rafRef.current);
+    isAnimatingRef.current = false;
+    didDragRef.current = false;
     isDraggingRef.current = true;
     dragStartXRef.current = e.pageX - el.offsetLeft;
     dragScrollLeftRef.current = el.scrollLeft;
@@ -176,6 +180,7 @@ export default function ProjectsPage() {
     if (!isDraggingRef.current || !scrollRef.current) return;
     const x = e.pageX - scrollRef.current.offsetLeft;
     const walk = (x - dragStartXRef.current) * 1.25;
+    if (Math.abs(walk) > 6) didDragRef.current = true;
     scrollRef.current.scrollLeft = dragScrollLeftRef.current - walk;
     targetScrollRef.current = scrollRef.current.scrollLeft;
   };
@@ -190,15 +195,22 @@ export default function ProjectsPage() {
     >
       <Navbar />
 
-      <main className="flex h-full flex-col justify-center pt-12">
+      <main className="flex h-full flex-col justify-center pt-16 sm:pt-12">
         <div
           ref={scrollRef}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUpOrLeave}
           onMouseLeave={handleMouseUpOrLeave}
+          onClickCapture={(event) => {
+            if (didDragRef.current) {
+              event.preventDefault();
+              event.stopPropagation();
+              didDragRef.current = false;
+            }
+          }}
           aria-label="Projects carousel"
-          className="flex gap-4 overflow-x-auto snap-x snap-mandatory sm:snap-none px-[max(1.5rem,calc((100vw-56rem)/2))] py-4 no-scrollbar cursor-grab active:cursor-grabbing"
+          className="projects-track flex gap-3 overflow-x-auto snap-x snap-mandatory sm:snap-none py-4 no-scrollbar cursor-grab active:cursor-grabbing"
         >
           {PROJECTS.map((project) => (
             <ProjectCard

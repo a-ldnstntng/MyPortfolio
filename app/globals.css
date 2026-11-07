@@ -111,3 +111,127 @@
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* The project strip keeps the artwork at a consistent editorial 3:2. */
+.projects-track {
+  padding-inline: max(1.5rem, 6.5vw);
+  scroll-padding-inline: max(1.5rem, 6.5vw);
+}
+.project-card {
+  width: min(64vw, 84vh, 56rem);
+}
+.project-card:focus-visible {
+  outline: 2px solid var(--accent-teal);
+  outline-offset: 6px;
+}
+.project-art {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  container-type: inline-size;
+  color: #fff7f0;
+}
+.project-art-ligtas {
+  background: radial-gradient(ellipse at 10% 100%, #b3a054 0%, #5b5a38 31%, #292e29 64%, #171e1c 100%);
+}
+.project-art-reseta {
+  background: radial-gradient(ellipse at 88% 10%, #458567 0%, #1d604a 30%, #103d30 62%, #08251e 100%);
+}
+.project-art-bayani {
+  background: radial-gradient(ellipse at 0% 100%, #8e7ba1 0%, #55465f 32%, #302a3c 64%, #1c1926 100%);
+}
+.project-art-brand {
+  position: absolute;
+  top: 10%;
+  left: 7%;
+  display: flex;
+  align-items: center;
+  gap: 1.3cqw;
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 3.5cqw;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+.project-art-brand svg {
+  width: 4cqw;
+  height: 4cqw;
+}
+.project-art-ligtas .project-art-brand svg { color: #eff72f; }
+.project-art-rx { font-size: 4.6cqw; font-weight: 500; color: #b1ebcd; }
+.project-phone {
+  position: absolute;
+  width: 33%;
+  padding: .65%;
+  overflow: hidden;
+  border-radius: 4.2cqw;
+  background: #262927;
+  box-shadow: 0 2.5cqw 5cqw #0006;
+}
+.project-phone img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 3.6cqw;
+}
+.project-phone-back {
+  top: 31%;
+  left: 28%;
+  transform: rotate(-7deg);
+}
+.project-phone-front {
+  top: 21%;
+  left: 63%;
+  transform: rotate(4deg);
+}
+.project-art-reseta .project-phone { background: #d2dbd5; }
+.project-art-reseta .project-art-brand { top: 45%; }
+.project-art-reseta .project-phone {
+  top: 9%;
+  bottom: 9%;
+  width: auto;
+  aspect-ratio: 1080 / 2400;
+  padding: .5cqw;
+  border-radius: 2.6cqw;
+  transform: none;
+}
+.project-art-reseta .project-phone img {
+  height: 100%;
+  object-fit: contain;
+  border-radius: 2.1cqw;
+}
+.project-art-reseta .project-phone-back { left: 70%; }
+.project-art-reseta .project-phone-front { left: 42%; }
+.project-browser {
+  position: absolute;
+  top: 22%;
+  left: 50%;
+  width: auto;
+  height: 69%;
+  aspect-ratio: 1280 / 950;
+  transform: translateX(-50%);
+  overflow: hidden;
+  border-radius: 1.2cqw;
+  background: #171717;
+  box-shadow: 0 3cqw 6cqw #0006;
+  display: flex;
+  flex-direction: column;
+}
+.project-browser-bar {
+  display: flex;
+  align-items: center;
+  gap: .65cqw;
+  padding: 1.2cqw 1.5cqw;
+  color: #bcbcbc;
+  font: 1.2cqw var(--font-geist-sans), sans-serif;
+}
+.project-browser-bar i { width: .7cqw; height: .7cqw; border-radius: 50%; background: #737373; }
+.project-browser-bar span { margin-left: 2cqw; }
+.project-browser img { display: block; width: 100%; min-height: 0; flex: 1; object-fit: contain; object-position: top; }
+@media (max-width: 639px) {
+  .project-card { width: 86vw; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-card, .project-card * { transition: none !important; }
+}

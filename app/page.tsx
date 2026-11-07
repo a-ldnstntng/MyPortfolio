@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import AsciiOrcaGrid from "@/components/AsciiOrcaGrid";
 import { useTheme } from "@/components/ThemeProvider";
+import { VerseText } from "@/components/verse-text";
 import { SITE_CONFIG, CITATIONS } from "@/lib/projects";
 
 function Citation({
@@ -225,7 +226,13 @@ export default function HomePage() {
             data-koi-avoid={true}
             className="font-geistMono text-[14px] lowercase leading-relaxed tracking-[0.02em] opacity-60"
           >
-            {SITE_CONFIG.tagline}
+            {SITE_CONFIG.tagline.replace(/\bagents\b/i, "").trimEnd()}{" "}
+            <VerseText
+              text="agents"
+              tone={isLight ? "light" : "dark"}
+              className="inline-block align-baseline"
+              style={{ "--vt-ink": "currentColor" } as React.CSSProperties}
+            />
             <span
               aria-hidden="true"
               className="ml-1 inline-block h-[1em] w-[0.55em] translate-y-[0.15em] animate-blink bg-foreground motion-reduce:animate-none"

@@ -493,7 +493,10 @@ function printSchedule(
     const pause = pauseAfter(word)
     const pair = pause === 0 && !paired && d.chance(0.08)
     paired = pair
-    if (!pair) tick += wordGap(d.random()) + pause
+    if (!pair) {
+      const gap = words.length <= 6 ? d.int(6, 8) : wordGap(d.random())
+      tick += gap + pause
+    }
     return { start, frames }
   })
   const end = prints.reduce(
@@ -1158,12 +1161,16 @@ function Words({
   tokens: Token[]
   states: WordState[] | null
 }) {
-  return tokens.map((token) => (
-    <Fragment key={token.key}>
-      <PressWord text={token.text} state={states?.[token.index]} />
-      {token.space}
-    </Fragment>
-  ))
+  return tokens.map((token) => {
+    const state = states?.[token.index]
+    const isWaiting = state === 'waiting'
+    return (
+      <Fragment key={token.key}>
+        <PressWord text={token.text} state={state} />
+        {isWaiting ? null : token.space}
+      </Fragment>
+    )
+  })
 }
 
 const prose = (className?: string) =>
@@ -1376,7 +1383,7 @@ function VerseTextBody({
         setVisible(seen)
         if (seen && autoplay) setTick((current) => current ?? 0)
       },
-      { threshold: 0.3 }
+      { threshold: 0 }
     )
     observer.observe(root)
     return () => observer.disconnect()
@@ -1430,14 +1437,20 @@ function VerseTextBody({
     : reduced
       ? null
       : tick
+  const waiting = controlled
+    ? !hydrated || frame < 0
+    : !reduced && autoplay && tick === null
   let page: PageLook | null = null
   if (at !== null) {
     const burst = idle ? idleBurst(schedule, seed, at, focusIndex) : null
     page = lookAt(schedule, burst ? [burst] : [], at)
+  } else if (waiting) {
+    page = {
+      words: schedule.words.map(() => 'waiting'),
+      tear: null,
+      split: 0,
+    }
   }
-  const waiting = controlled
-    ? !hydrated || frame < 0
-    : !reduced && autoplay && tick === null
 
   return (
     <div
@@ -1475,14 +1488,14 @@ const CSS = `
 }
 
 /* tone="dark": light ink, plates screened; :where keeps it overridable */
-:where(.vt-root[data-tone='dark']) {
+:where(.vt-root[data-tone=dark]) {
   --vt-ink: oklch(0.955 0 0);
   --vt-blend: screen;
 }
 
 /* unseen (still read aloud) until it prints; shown after 3 s if scripts never run */
 @media (scripting: enabled) {
-  .vt-root[data-phase='waiting'] .vt-sheet {
+  .vt-root[data-phase=waiting] .vt-sheet {
     opacity: 0;
     animation: vt-reveal 0s 3s forwards;
   }
@@ -1514,23 +1527,23 @@ const CSS = `
   user-select: none;
 }
 
-.vt-prose[data-copy='plate'] {
+.vt-prose[data-copy=plate] {
   mix-blend-mode: var(--vt-blend, multiply);
 }
 
-.vt-prose[data-copy='plate'] .vt-glitch {
+.vt-prose[data-copy=plate] .vt-glitch {
   display: none;
 }
 
-.vt-prose[data-plate='c'] {
+.vt-prose[data-plate=c] {
   color: var(--vt-plate-c, oklch(0.76 0.15 222));
 }
 
-.vt-prose[data-plate='m'] {
+.vt-prose[data-plate=m] {
   color: var(--vt-plate-m, oklch(0.6 0.26 355));
 }
 
-.vt-prose[data-plate='y'] {
+.vt-prose[data-plate=y] {
   color: var(--vt-plate-y, oklch(0.93 0.19 104));
 }
 
@@ -1548,8 +1561,11 @@ const CSS = `
   position: relative;
 }
 
-.vt-word[data-state='waiting'],
-.vt-word[data-key='false'] {
+.vt-word[data-state=waiting] {
+  display: none;
+}
+
+.vt-word[data-key=false] {
   color: transparent;
 }
 
@@ -1578,15 +1594,15 @@ const CSS = `
   mix-blend-mode: var(--vt-blend, multiply);
 }
 
-.vt-plate[data-plate='c'] {
+.vt-plate[data-plate=c] {
   color: var(--vt-plate-c, oklch(0.76 0.15 222));
 }
 
-.vt-plate[data-plate='m'] {
+.vt-plate[data-plate=m] {
   color: var(--vt-plate-m, oklch(0.6 0.26 355));
 }
 
-.vt-plate[data-plate='y'] {
+.vt-plate[data-plate=y] {
   color: var(--vt-plate-y, oklch(0.93 0.19 104));
 }
 
@@ -1610,11 +1626,11 @@ const CSS = `
   mix-blend-mode: var(--vt-blend, multiply);
 }
 
-.vt-comb-ink[data-tint='c'] {
+.vt-comb-ink[data-tint=c] {
   color: var(--vt-plate-c, oklch(0.76 0.15 222));
 }
 
-.vt-comb-ink[data-tint='m'] {
+.vt-comb-ink[data-tint=m] {
   color: var(--vt-plate-m, oklch(0.6 0.26 355));
 }
 
@@ -1640,24 +1656,24 @@ const CSS = `
   background-color: var(--vt-shard);
 }
 
-.vt-shard[data-color='violet'] {
+.vt-shard[data-color=violet] {
   --vt-shard: var(--vt-violet, oklch(0.48 0.29 272));
 }
 
-.vt-shard[data-color='magenta'] {
+.vt-shard[data-color=magenta] {
   --vt-shard: var(--vt-magenta, oklch(0.64 0.3 328));
 }
 
-.vt-shard[data-color='green'] {
+.vt-shard[data-color=green] {
   --vt-shard: var(--vt-green, oklch(0.72 0.25 145));
 }
 
-.vt-shard[data-color='gold'] {
+.vt-shard[data-color=gold] {
   --vt-shard: var(--vt-gold, oklch(0.82 0.17 82));
 }
 
 /* a motion streak inside the shard, a darker tone of its colour */
-.vt-shard[data-streak='true'] {
+.vt-shard[data-streak=true] {
   background-image: repeating-linear-gradient(
     var(--streak),
     transparent 0 0.05em,
@@ -1670,11 +1686,11 @@ const CSS = `
   inset: 18.75% 11.538%;
 }
 
-.vt-shard[data-ink='light'] .vt-shard-text {
+.vt-shard[data-ink=light] .vt-shard-text {
   color: oklch(0.99 0 0);
 }
 
-.vt-shard[data-ink='dark'] .vt-shard-text {
+.vt-shard[data-ink=dark] .vt-shard-text {
   color: var(--vt-key, oklch(0.12 0 0));
 }
 
@@ -1683,13 +1699,13 @@ const CSS = `
   position: absolute;
 }
 
-.vt-bit[data-kind='dot'],
-.vt-bit[data-kind='speck'] {
+.vt-bit[data-kind=dot],
+.vt-bit[data-kind=speck] {
   border-radius: 50%;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .vt-root[data-phase='waiting'] .vt-sheet {
+  .vt-root[data-phase=waiting] .vt-sheet {
     opacity: 1;
     animation: none;
   }

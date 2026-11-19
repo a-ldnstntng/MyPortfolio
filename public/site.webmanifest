@@ -4,8 +4,8 @@
   "description": "Portfolio of Ali Andrei Tanting - Systems software engineer, telemetry systems, and interactive simulations.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0d1d33",
-  "theme_color": "#49a9fd",
+  "background_color": "#1a1917",
+  "theme_color": "#4f5434",
   "icons": [
     {
       "src": "/icon-192.png",

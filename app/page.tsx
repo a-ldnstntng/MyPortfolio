@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
-import AsciiOrcaGrid from "@/components/AsciiOrcaGrid";
+import DitherMeadowScene, { type MeadowState } from "@/components/DitherMeadowScene";
 import { useTheme } from "@/components/ThemeProvider";
 import { VerseText, type VerseTextHandle } from "@/components/verse-text";
 import { SITE_CONFIG, CITATIONS } from "@/lib/projects";
@@ -78,7 +78,7 @@ function Citation({
         className={`cursor-pointer inline align-baseline underline decoration-1 underline-offset-[5px] transition-[text-decoration-color,color] duration-150 outline-none focus-visible:decoration-2 ${
           open
             ? "decoration-foreground text-foreground"
-            : "decoration-[color-mix(in_srgb,var(--foreground-color)_35%,transparent)] hover:decoration-[#48bcce] hover:text-foreground focus-visible:decoration-foreground focus-visible:text-foreground"
+            : "decoration-[color-mix(in_srgb,var(--foreground-color)_35%,transparent)] hover:decoration-[var(--accent-meadow)] hover:text-foreground focus-visible:decoration-foreground focus-visible:text-foreground"
         }`}
       >
         {children}
@@ -87,7 +87,6 @@ function Citation({
       <AnimatePresence>
         {open && (
           <motion.span
-            data-koi-ignore={true}
             initial={{ opacity: 0, y: 4, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{
@@ -172,7 +171,10 @@ function Citation({
 
 export default function HomePage() {
   const { theme, isLight } = useTheme();
-  const [stats, setStats] = useState({ pod: 5, ripples: 0 });
+  const [meadowState, setMeadowState] = useState<MeadowState>({
+    mood: "asleep",
+    wakes: 0,
+  });
   const taglineRef = useRef<VerseTextHandle>(null);
 
   useEffect(() => {
@@ -187,46 +189,47 @@ export default function HomePage() {
     };
   }, []);
 
+  const displayMood =
+    meadowState.mood === "waking" ? "awake" : meadowState.mood;
+
   return (
     <div
       id="mainPage"
       className={`relative h-[100dvh] w-full overflow-hidden bg-background transition-colors duration-300 ${theme}`}
     >
-      <AsciiOrcaGrid
-        theme={theme}
+      <DitherMeadowScene
         isLight={isLight}
-        onStats={setStats}
-        className="absolute inset-0 h-full w-full"
+        onStateChange={setMeadowState}
+        className="absolute inset-0 z-10 h-full w-full"
       />
 
       <Navbar />
 
-      <main className="relative z-20 flex h-full flex-col">
-        <header className="mx-auto w-full px-6 lg:px-[20vw] relative flex h-full flex-col justify-end gap-10 bg-transparent pb-28 pt-28 text-foreground [@media(max-height:720px)]:gap-6 [@media(max-height:720px)]:pb-12 [@media(max-height:720px)]:pt-20">
-          {/* Top-right dim counter (Orcas / Active Ripples & Blips) */}
-          {stats.pod > 0 && (
-            <div
-              data-koi-avoid={true}
-              aria-hidden="true"
-              className="hidden lg:block absolute right-6 top-8 font-geistMono text-[11px] leading-relaxed tabular-nums lg:right-[20vw]"
-            >
-              <div className="opacity-[0.32]">{stats.pod}</div>
+      <main className="pointer-events-none relative z-20 flex h-full flex-col">
+        <header className="pointer-events-none mx-auto w-full px-6 lg:px-[20vw] relative flex h-full flex-col justify-end gap-10 bg-transparent pb-28 pt-28 text-foreground [@media(max-height:720px)]:gap-6 [@media(max-height:720px)]:pb-12 [@media(max-height:720px)]:pt-20">
+          {/* Top-right quiet meadow status & wake counter */}
+          <div
+            aria-hidden="true"
+            className="hidden lg:block absolute right-6 top-8 font-geistMono text-[11px] leading-relaxed tabular-nums lg:right-[20vw] text-right lowercase"
+          >
+            <div className="opacity-[0.32]">{displayMood}</div>
+            {meadowState.wakes > 0 && (
               <motion.div
-                key={stats.ripples}
+                key={meadowState.wakes}
                 initial={{ opacity: 1 }}
                 animate={{ opacity: 0.32 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
               >
-                {stats.ripples}
+                {meadowState.wakes}
               </motion.div>
-            </div>
-          )}
+            )}
+          </div>
 
           {/* Tagline (exact lowercase: "leveling up with agents" + blinking cursor) */}
           <blockquote
-            data-koi-avoid={true}
+            data-meadow-clear="true"
             onClick={() => taglineRef.current?.replay()}
-            className="font-geistMono text-[14px] lowercase leading-relaxed tracking-[0.02em] opacity-60 cursor-pointer"
+            className="pointer-events-auto self-start font-geistMono text-[14px] lowercase leading-relaxed tracking-[0.02em] opacity-60 cursor-pointer"
             title="Click to replay"
           >
             <VerseText
@@ -245,8 +248,8 @@ export default function HomePage() {
 
           {/* Intro & Socials Block */}
           <motion.div
-            data-koi-avoid={true}
-            className="cited-prose max-w-[54rem] font-geistMono text-[14px] sm:text-[15px] leading-[max(23px,3vh)]"
+            data-meadow-clear="true"
+            className="pointer-events-auto cited-prose max-w-[54rem] font-geistMono text-[14px] sm:text-[15px] leading-[max(23px,3vh)]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3, delay: 0.15 }}
@@ -289,7 +292,7 @@ export default function HomePage() {
                         ? undefined
                         : "noopener noreferrer"
                     }
-                    className="underline decoration-[color-mix(in_srgb,var(--foreground-color)_35%,transparent)] decoration-1 underline-offset-[5px] outline-none transition-[opacity,text-decoration-color] duration-150 opacity-60 hover:opacity-100 hover:decoration-[#48bcce] focus-visible:opacity-100 focus-visible:decoration-foreground"
+                    className="underline decoration-[color-mix(in_srgb,var(--foreground-color)_35%,transparent)] decoration-1 underline-offset-[5px] outline-none transition-[opacity,text-decoration-color] duration-150 opacity-60 hover:opacity-100 hover:decoration-[var(--accent-meadow)] focus-visible:opacity-100 focus-visible:decoration-foreground"
                   >
                     {label}
                   </a>

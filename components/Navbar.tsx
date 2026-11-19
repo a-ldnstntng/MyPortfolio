@@ -8,7 +8,7 @@ import { useTheme } from "@/components/ThemeProvider";
 import { SITE_CONFIG } from "@/lib/projects";
 
 const NAV_LINKS = [
-  { label: "pod", href: "/" },
+  { label: "meadow", href: "/" },
   { label: "projects", href: "/projects" },
   { label: "gallery", href: "/gallery" },
 ];
@@ -46,7 +46,7 @@ function ThemeIcon({ isLight, size = 15 }: { isLight: boolean; size?: number | s
 
 export default function Navbar({ overCover = false }: { overCover?: boolean }) {
   const pathname = usePathname();
-  const { theme, isLight, isOcean, toggleTheme, toggleOceanBg } = useTheme();
+  const { isLight, toggleTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const isActive = (href: string) =>
@@ -59,8 +59,6 @@ export default function Navbar({ overCover = false }: { overCover?: boolean }) {
     <>
       {/* ─── DESKTOP / TABLET NAVBAR ─── */}
       <nav
-        data-koi-avoid={true}
-        data-koi-ignore={true}
         aria-label="Main"
         className={`hidden sm:flex fixed inset-x-0 top-0 z-40 items-center justify-center gap-7 pt-8 font-geistMono text-[13px] lowercase transition-colors duration-200 ${
           overCover ? "text-dark-foreground" : "text-foreground"
@@ -79,39 +77,6 @@ export default function Navbar({ overCover = false }: { overCover?: boolean }) {
           </Link>
         ))}
 
-        {/* Dark BG Swatch Toggle: switches between Deep Ocean Blue (#0d1d33) and Dao Ho Charcoal (#1a1917) */}
-        <button
-          type="button"
-          onClick={toggleOceanBg}
-          title={
-            theme === "ocean"
-              ? "Switch dark background to Dao Ho Charcoal (#1a1917)"
-              : "Switch dark background to Deep Ocean Blue (#0d1d33)"
-          }
-          aria-label={
-            theme === "ocean"
-              ? "Switch dark background to Dao Ho Charcoal"
-              : "Switch dark background to Deep Ocean Blue"
-          }
-          className={`${baseLinkClass} flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] opacity-75 hover:opacity-100 cursor-pointer`}
-          style={{
-            borderColor:
-              "color-mix(in srgb, var(--foreground-color) 18%, transparent)",
-            backgroundColor:
-              "color-mix(in srgb, var(--foreground-color) 5%, transparent)",
-          }}
-        >
-          <span
-            aria-hidden="true"
-            className="inline-block h-2 w-2 rounded-full"
-            style={{
-              backgroundColor: theme === "ocean" ? "#5ce1e6" : "#1a1917",
-              boxShadow: "0 0 0 1px rgba(255,255,255,0.35)",
-            }}
-          />
-          <span>{theme === "ocean" ? "ocean" : "charcoal"}</span>
-        </button>
-
         {/* Light / Dark Mode Button */}
         <button
           type="button"
@@ -125,7 +90,7 @@ export default function Navbar({ overCover = false }: { overCover?: boolean }) {
       </nav>
 
       {/* ─── MOBILE NAVBAR (< 640px) ─── */}
-      <div className="sm:hidden" data-koi-avoid={true} data-koi-ignore={true}>
+      <div className="sm:hidden">
         <div className="fixed top-[3vw] left-[3vw] right-[3vw] z-50 flex items-center gap-2">
           <button
             type="button"
@@ -194,30 +159,7 @@ export default function Navbar({ overCover = false }: { overCover?: boolean }) {
             </span>
           </button>
 
-          {/* Quick Mobile Dark BG & Light/Dark Toggles */}
-          <button
-            type="button"
-            onClick={toggleOceanBg}
-            aria-label="Switch between Ocean Blue and Charcoal Black"
-            className="flex h-[11vw] w-[11vw] items-center justify-center rounded-full cursor-pointer"
-            style={{
-              background: isLight
-                ? "rgba(38, 37, 35, 0.06)"
-                : "rgba(255, 247, 240, 0.06)",
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-              color: isLight ? "#262523" : "#fff7f0",
-            }}
-          >
-            <span
-              className="h-3 w-3 rounded-full"
-              style={{
-                backgroundColor: isOcean ? "#5ce1e6" : "#1a1917",
-                boxShadow: "0 0 0 1.5px currentColor",
-              }}
-            />
-          </button>
-
+          {/* Quick Mobile Light/Dark Toggle */}
           <button
             type="button"
             onClick={toggleTheme}
@@ -245,11 +187,7 @@ export default function Navbar({ overCover = false }: { overCover?: boolean }) {
               transition={{ duration: 0.2 }}
               className="fixed inset-0 z-40 flex flex-col"
               style={{
-                backgroundColor: isLight
-                  ? "#f5f4f1"
-                  : isOcean
-                  ? "#0d1d33"
-                  : "#1a1917",
+                backgroundColor: isLight ? "#f5f4f1" : "#1a1917",
                 color: isLight ? "#262523" : "#fff7f0",
               }}
             >

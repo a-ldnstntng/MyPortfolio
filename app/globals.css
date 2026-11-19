@@ -7,7 +7,8 @@
   --background-color: #f5f4f1;
   --foreground-color: #262523;
   --muted-color: color-mix(in srgb, var(--foreground-color) 64%, transparent);
-  --accent-teal: #2a8fa0;
+  --accent-meadow: #5d6e46;
+  --accent-teal: var(--accent-meadow);
   --background: 45 14% 95%;
   --foreground: 30 4% 14%;
 }
@@ -16,18 +17,10 @@
   --background-color: #1a1917;
   --foreground-color: #fff7f0;
   --muted-color: color-mix(in srgb, var(--foreground-color) 50%, transparent);
-  --accent-teal: #48bcce;
+  --accent-meadow: #95ad72;
+  --accent-teal: var(--accent-meadow);
   --background: 30 6% 10%;
   --foreground: 28 100% 97%;
-}
-
-.ocean {
-  --background-color: #0d1d33;
-  --foreground-color: #f0f6fc;
-  --muted-color: color-mix(in srgb, var(--foreground-color) 56%, transparent);
-  --accent-teal: #5ce1e6;
-  --background: 215 60% 13%;
-  --foreground: 210 60% 96%;
 }
 
 @layer base {

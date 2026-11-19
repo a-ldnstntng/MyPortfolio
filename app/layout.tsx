@@ -25,7 +25,7 @@ const playfairDisplay = Playfair_Display({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#0d1d33",
+  themeColor: "#1a1917",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -74,9 +74,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
+      <html
       lang="en"
-      className={`ocean ${geistMono.variable} ${geistSans.variable} ${playfairDisplay.variable}`}
+      className={`dark ${geistMono.variable} ${geistSans.variable} ${playfairDisplay.variable}`}
       suppressHydrationWarning
     >
       <body className="scroll-smooth overflow-x-clip bg-background text-foreground font-geistMono">

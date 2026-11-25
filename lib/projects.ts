@@ -5,14 +5,14 @@ export interface ProjectItem {
   tagline: string; // One-line description under card
   subtitle: string;
   featuredWide?: boolean; // Makes LIGTAS METRO slightly wider as the top project
-  cover: string; // Path in /public/projects/[slug]/cover.png
+  cover: string; // Public path to the project cover
   github?: string;
   liveUrl?: string;
   tags: string[];
   overview: string[];
   features: { title: string; detail: string }[];
   accentColor: string;
-  mockupVariant: "ligtas" | "resetaph" | "parapo" | "bayaniremit" | "netforge";
+  mockupVariant: "ligtas" | "resetaph" | "parapo" | "bayaniremit" | "netforge" | "yung-sampay";
 }
 
 export interface CitationItem {
@@ -343,6 +343,35 @@ export const PROJECTS: ProjectItem[] = [
         title: "Cisco IOS CLI Configuration Exporter",
         detail:
           "Generates syntax-accurate interface, OSPF, switchport VLAN, and extended ACL configuration scripts per device.",
+      },
+    ],
+  },
+  {
+    slug: "yung-sampay",
+    name: "Yung Sampay",
+    season: "Fall 2026",
+    tagline: "A Filipino 3D rooftop arcade game about rescuing laundry before the monsoon hits.",
+    subtitle: "Filipino Rooftop Arcade Game",
+    cover: "/projects/yung-sampay/cover.webp",
+    tags: ["Godot 4.7", "GDScript", "Blender"],
+    accentColor: "#26332f",
+    mockupVariant: "yung-sampay",
+    overview: [
+      "Yung Sampay brings a Filipino neighborhood to life as a blocky, high-angle 3D diorama inspired by Unrailed! Grab the sinampay from clotheslines, toss it into the blue batya, and work around gusts, barbecue smoke, and cats that steal laundry.",
+      "The seven-day campaign starts at Nanay’s laundry counter. Take customer orders, make your way to the rooftop, and end the day with a receipt and grade. Bagyo Rush and Daily Forecast offer shorter ways to play.",
+    ],
+    features: [
+      {
+        title: "Seven-Day Laundry Campaign",
+        detail: "Each day changes the rooftop routine with new hazards and tools, including clothesline pulleys, wind-catching baskets, and movable drying racks.",
+      },
+      {
+        title: "3D Filipino Neighborhood",
+        detail: "A high-angle camera frames blocky Blender-made characters, corrugated roofs, and familiar details like the batya and neighborhood tindahan.",
+      },
+      {
+        title: "English and Tagalog",
+        detail: "Switch the interface between English and Tagalog and play with a controller or remappable keyboard controls.",
       },
     ],
   },

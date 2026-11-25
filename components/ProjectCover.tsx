@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import type { ProjectItem } from "@/lib/projects";
 
 export default function ProjectCover({
@@ -19,6 +20,16 @@ export default function ProjectCover({
       {project.mockupVariant === "parapo" && <ParaPoMockup />}
       {project.mockupVariant === "bayaniremit" && <BayaniRemitMockup />}
       {project.mockupVariant === "netforge" && <NetForgeMockup />}
+      {project.mockupVariant === "yung-sampay" && (
+        <Image
+          src={project.cover}
+          alt="Yung Sampay’s home screen beside a blocky Filipino neighborhood with rooftop clotheslines"
+          width={1600}
+          height={900}
+          draggable={false}
+          className="block h-full w-full bg-[#26332f] object-contain"
+        />
+      )}
     </div>
   );
 }
